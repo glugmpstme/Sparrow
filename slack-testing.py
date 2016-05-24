@@ -1,7 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import time
 import pprint
+
 from slackclient import SlackClient
 
 token = 'xoxp-16751206212-16756631639-44418396547-e43ecfadc2'
