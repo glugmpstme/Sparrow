@@ -4,7 +4,7 @@ import time
 #for pretty printing the received response
 import pprint
 # never add access tokens directly to code, specially in public code
-from token import token
+import tokenfile
 #see README.md for instructions on importing the SDK
 from slackclient import SlackClient
 
@@ -24,9 +24,13 @@ class MessageObject:
 	def __init__(self, message):
 		self.channel = message['channel']
 		self.ts = message['ts']
-		self.text = message['text']
+		self.content = message
 
 def storeMessage(message):
+	#if message[]
+	pass
+
+def updateCount(reaction):
 	pass
 
 def cyPretty(response):	
@@ -37,8 +41,9 @@ if sc.rtm_connect():
 		# rtm_read() returns an array of dicts
 		responseArray = sc.rtm_read()
 		for response in responseArray:
-			if response['type'] == 'message' or \
-			response['type'] == 'reaction_added' or \
+			if response['type'] == 'message':
+				storeMessage(response)
+			if response['type'] == 'reaction_added' or \
 			response['type'] == 'reaction_removed':
 				cyPretty(response)
 			else:
