@@ -18,15 +18,8 @@ pp = pprint.PrettyPrinter(indent=2)
 # TODO: Remove in production
 pp.pprint(sc.api_call('api.test'))
 
-
-# class MessageObject:
-# 	"""docstring for MessageObject"""
-# 	def __init__(self, message):
-# 		self.channel = message['channel']
-# 		self.ts = message['ts']
-# 		self.content = message
-
-messagesDict = {} 
+messagesDict = {}
+# TODO: set dynamically
 threshold = 1
 
 # TODO: replace with actual publish method
@@ -50,18 +43,26 @@ def unpublish(message):
 		icon_emoji=':robot_face:'
 		))
 
+def deleteMessage(response):
+	pass
+
+# may not need to store, depending on 'reactions.get'
 def storeMessage(message):
 	tKey = str(message['channel'] + message['ts'])
 	try:
 		messagesDict[tKey]
 	except KeyError:
-		#thumbs up count
+		# thumbs up count
 		message['sp-tupCount'] = 0
+		# currently published
 		message['sp-published'] = False
 		messagesDict[tKey] = message
+	print('======== BEG_DICT ========')
 	cyPretty(messagesDict)
+	print('======== END_DICT ========')
 
 # delta is either +1 or -1 for add and remove respectively
+# TODO: replace with a method utilising 'reactions.get'
 def updateCount(reaction, delta):
 	if reaction['reaction'] == '+1':
 		tKey = str(reaction['item']['channel'] + reaction['item']['ts'])
@@ -84,14 +85,20 @@ if sc.rtm_connect():
 		responseArray = sc.rtm_read()
 		for response in responseArray:
 			if response['type'] == 'message':
-				storeMessage(response)
+				try:
+					if response['subtype'] == 'message_deleted':
+						pass
+				except KeyError:
+					storeMessage(response)
+				else:
+					deleteMessage(response)
 			elif response['type'] == 'reaction_added':
 				updateCount(response, 1)
 			elif response['type'] == 'reaction_removed':
 				updateCount(response, -1)
 			else:
-				cyPretty(response)
-				#print (response['type']);
+				#cyPretty(response)
+				print ('[RECV]', response['type']);
 		time.sleep(1)
 else:
 	pp.pprint(sc.rtm_connect())
