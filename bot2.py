@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
 import pprint
+import tokenfile
 from slackclient import SlackClient
 
-token = 'xoxp-16751206212-16756631639-44418396547-e43ecfadc2'
+token = tokenfile.thetoken
+print(token)
 
 sc = SlackClient(token)
 pp = pprint.PrettyPrinter(indent=2)
