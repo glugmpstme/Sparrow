@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import time
 import pprint
 from slackclient import SlackClient
@@ -5,19 +7,34 @@ from slackclient import SlackClient
 token = 'xoxp-16751206212-16756631639-44418396547-e43ecfadc2'
 
 sc = SlackClient(token)
+pp = pprint.PrettyPrinter(indent=2)
 
-print sc.api_call('api.test')
-print type(sc.api_call('api.test'))
+pp.pprint(sc.api_call('api.test'))
 
-def cyPretty(response):
-	pp = pprint.PrettyPrinter(indent=2)
+class MessageObject:
+	"""docstring for MessageObject"""
+	def __init__(self, message):
+		self.channel = message['channel']
+		self.ts = message['ts']
+		self.text = message['text']
+		
+
+def storeMessage(message):
+	pass
+
+def cyPretty(response):	
 	pp.pprint(response)
 
 if sc.rtm_connect():
 	while True:
 		responseArray = sc.rtm_read()
 		for response in responseArray:
-			cyPretty(response)
+			if response['type'] == 'message' or \
+			response['type'] == 'reaction_added' or \
+			response['type'] == 'reaction_removed':
+				cyPretty(response)
+			else:
+				print (response['type']);
 		time.sleep(1)
 else:
-	print sc.rtm_connect()
+	pp.pprint(sc.rtm_connect())
