@@ -1,0 +1,6 @@
+import facebook
+token="EAACEdEose0cBAIbEu6ueim3sqIBQ0iolaEIxNxD4Cd7EhuZBZAjlAoNNRT7HLYL9d5LMWFQ0y7Bx6Nmvy13mLm8SB8XKuLBZAMHnKsCqKE2AkKSxhoAx6yOkpo6xwJ2Ay0nlMasuYbANtW49kwphaE4hqIUZADHlFuhdRRhKogZDZD"
+facebook=fb.graph.api(token)
+
+
+facebook.publish=(cat="feed",id="me")
