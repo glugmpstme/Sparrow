@@ -2,7 +2,7 @@
 
 import facebook
 //long lived access token
-ACCESS_TOKEN="EAAQCV0g4AscBAJY14boj64F0XnZAY3dLwezgxtX6cfsEVuAWObG59NZAEizxbpjGV3Ko6OWfqY4jJJjVHacuHikiV5kxqqvL1vZAKnyBiWcaHyDZC3G62ZBcUEBgibCYUWl2aaeQABRtyXCfJQ8C2WuEVDhhfhEYZD"
+ACCESS_TOKEN=//accesstoken
 
 graph = facebook.GraphAPI(ACCESS_TOKEN)
 graph.put_object("me", "feed", message="test post")
